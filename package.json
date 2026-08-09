@@ -27,6 +27,7 @@
   },
   "scripts": {
     "build": "vite build",
+    "prepare": "npm run build",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage"
   },

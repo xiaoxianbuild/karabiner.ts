@@ -86,6 +86,7 @@ function formatValue(
 ): string {
   // null
   if (value === null) return 'null'
+  // for specific undefined value, return null
   if (value === undefined) return 'null'
 
   // Primitive types
@@ -107,6 +108,7 @@ function formatValue(
 
     // Multi-line array
     const items = value.map(
+      // for undefined value in array, return formatValue(undefined, options, indentLevel + 1),
       (v) => `${childIndent}${formatValue(v, options, indentLevel + 1)}`,
     )
     return `[\n${items.join(',\n')}\n${indent}]`
@@ -115,6 +117,9 @@ function formatValue(
   // Object
   if (typeof value === 'object') {
     const entries = Object.entries(value as Record<string, unknown>)
+      // for undefined value in object, skip it
+      .filter(([, v]) => v !== undefined)
+      .sort(([a], [b]) => a.localeCompare(b))
 
     if (entries.length === 0) return '{}'
 
@@ -125,8 +130,7 @@ function formatValue(
     }
 
     // Multi-line object
-    const sortedEntries = [...entries].sort(([a], [b]) => a.localeCompare(b))
-    const lines = sortedEntries.map(([k, v]) => {
+    const lines = entries.map(([k, v]) => {
       const formattedValue = formatValue(v, options, indentLevel + 1, k)
       return `${childIndent}${JSON.stringify(k)}: ${formattedValue}`
     })

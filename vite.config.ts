@@ -23,7 +23,7 @@ export default defineConfig({
       },
     },
   },
-  plugins: [dts({ rollupTypes: true })],
+  plugins: [dts({ rollupTypes: false })],
   test: {
     coverage: {
       provider: 'v8',

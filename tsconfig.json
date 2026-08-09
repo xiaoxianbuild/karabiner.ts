@@ -15,5 +15,6 @@
 
     "allowImportingTsExtensions": true
   },
+  "exclude": ["src/deno.ts"],
   "include": ["src"]
 }

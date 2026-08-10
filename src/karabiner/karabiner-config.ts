@@ -387,6 +387,13 @@ export type KarabinerProfile = {
   selected: boolean
   complex_modifications: ComplexModifications
   simple_modifications?: SimpleManipulator[]
+  devices?: Array<{
+    identifiers: DeviceIdentifier
+    simple_modifications?: SimpleManipulator[]
+    ignore_vendor_events: boolean
+    ignore: boolean
+    // TODO other properties
+  }>
 }
 
 export type KarabinerConfig = {

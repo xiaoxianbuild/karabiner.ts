@@ -7,6 +7,7 @@ import { RuleBuilder } from './config/rule.ts'
 import { simpleModifications } from './config/simple-modifications.ts'
 import { pqrsFormat } from './karabiner/json-formatter.ts'
 import {
+  DeviceIdentifier,
   KarabinerConfig,
   Manipulator,
   Rule,
@@ -68,6 +69,12 @@ export function writeToProfile(
     simple_modifications?: Array<
       Manipulator | ManipulatorBuilder | ManipulatorMap
     >
+    device_simple_modifications?: Array<{
+      identifiers: DeviceIdentifier
+      simple_modifications: Array<
+        Manipulator | ManipulatorBuilder | ManipulatorMap
+      >
+    }>
   },
 ) {
   if (typeof writeTarget == 'string') {
@@ -100,6 +107,28 @@ export function writeToProfile(
       profile.simple_modifications = simpleModifications(
         extras.simple_modifications,
       )
+    } catch (e) {
+      exitWithError(e)
+    }
+  }
+  if (extras?.device_simple_modifications) {
+    try {
+      for (const {
+        identifiers,
+        simple_modifications,
+      } of extras.device_simple_modifications) {
+        const device = profile.devices?.find(({ identifiers: i }) => {
+          // @ts-ignore
+          // TODO which properties should to check
+          return Object.keys(identifiers).every((k) => i[k] === identifiers[k])
+        })
+        if (!device) {
+          // TODO how to process device not found
+          continue
+        }
+        // TODO how to process duplicated device or duplicated simple modifications
+        device.simple_modifications = simpleModifications(simple_modifications)
+      }
     } catch (e) {
       exitWithError(e)
     }

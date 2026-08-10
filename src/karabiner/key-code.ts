@@ -110,6 +110,11 @@ export let functionKeyCodes = [
   'f18',
   'f19',
   'f20',
+  // Function keys
+  'f21',
+  'f22',
+  'f23',
+  'f24',
 ] as const
 
 export let keypadKeyCodes = [
@@ -162,11 +167,6 @@ export let otherKeyCodes = [
 ] as const
 
 export let fromOnlyKeyCodes = [
-  // Function keys
-  'f21',
-  'f22',
-  'f23',
-  'f24',
   // Keys in pc keyboards
   'execute',
   'menu',
